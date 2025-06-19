@@ -1,5 +1,8 @@
+import 'package:default_project/core/api_config/client/api_client.dart';
+import 'package:default_project/core/repository/repositiry_api_data.dart';
 import 'package:default_project/core/routes/app_routes.dart';
 import 'package:default_project/core/theme/theme_helper.dart';
+import 'package:default_project/core/utils/image_picker_section.dart';
 import 'package:default_project/core/utils/navigater_service.dart';
 import 'package:default_project/features/registration/bloc/resgistration_bloc.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +16,10 @@ class DreamVila extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => RegistrationBloc(),
+          create: (context) => RegistrationBloc(
+            ProfileImage(),
+            RegistrationRepository(apiClient: ApiClient()),
+          ),
         ),
       ],
       child: MaterialApp(

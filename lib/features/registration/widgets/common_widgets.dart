@@ -18,23 +18,25 @@ Widget buildDefaultTextField({
   required FocusNode node,
   bool obscureText = false,
   String? Function(String?)? validator,
+  RegistrationEvent? event,
   required BuildContext context,
-  required RegistrationEvent Function(String) onChangedEvent, // 👈 Pass event creator
+
+  // 👈 Pass event creator
 }) {
   return Padding(
     padding: const EdgeInsets.only(right: 10, left: 10),
     child: TextFormField(
       controller: controller,
       focusNode: node,
-      onChanged: (value) {
-        context.read<RegistrationBloc>().add(onChangedEvent(value));
-      },
       keyboardType: keyboardType,
       obscureText: obscureText,
       decoration: InputDecoration(
         suffixIcon: (isEnabled)
             ? IconButton(
-          onPressed: () {},
+          onPressed: () {
+            context.read<RegistrationBloc>().add(event!);
+
+          },
           icon: Icon(
             Icons.remove_red_eye_outlined,
             color: ThemeHelper.textFieldColors,

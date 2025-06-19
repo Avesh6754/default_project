@@ -5,6 +5,7 @@ import 'package:default_project/core/utils/navigater_service.dart';
 import 'package:default_project/features/registration/bloc/resgistration_bloc.dart';
 import 'package:default_project/features/registration/bloc/resgistration_event.dart';
 import 'package:default_project/features/registration/bloc/resgistration_state.dart';
+import 'package:default_project/features/registration/model/registration_modal.dart';
 import 'package:default_project/features/registration/widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,6 +43,7 @@ class _RegistrationState extends State<Registration> {
   final FocusNode passwordFocus = FocusNode();
   final FocusNode confirmPasswordFocus = FocusNode();
 
+  final List<String> _hobbies = ['Reading', 'Gaming', 'Traveling', 'Cooking'];
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -51,12 +53,20 @@ class _RegistrationState extends State<Registration> {
         systemNavigationBarDividerColor: Colors.transparent,
         systemNavigationBarColor: Theme.of(context).secondaryHeaderColor,
         systemNavigationBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent,
       ),
       child: Scaffold(
         backgroundColor: ThemeHelper.backgroundColors,
         body: BlocConsumer<RegistrationBloc, RegistrationState>(
+          listenWhen: (previous, current) => current!=previous,
+          buildWhen: (previous, current) => current!=previous,
           listener: (context, state) {
-            // TODO: implement listener
+            if (state.isLogin) {
+              NavigaterService.pushNamedRemovePreviousScreen(
+                AppRoutes.homepage,
+              );
+            }
           },
           builder: (context, state) {
             return Center(
@@ -64,156 +74,211 @@ class _RegistrationState extends State<Registration> {
                 padding: const EdgeInsets.only(right: 16, left: 16),
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    spacing: 5,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildHeightSizedBox(30),
-                      Align(alignment: Alignment.center, child: logoImage()),
-                      buildHeightSizedBox(10),
-                      buildDefaultText(text: 'First Name'),
-                      buildDefaultTextField(
-                        onChangedEvent: (value) =>
-                            OnChangeFirstNameEvent(value),
-                        context: context,
-                        validator: AppValidations.validateRequired,
-                        node: firstNameFocus,
-                        isEnabled: false,
-                        label: 'First Name',
-                        controller: txtFirstName,
-                        keyboardType: TextInputType.text,
-                      ),
-                      buildHeightSizedBox(10),
-                      buildDefaultText(text: 'Last Name'),
-                      buildDefaultTextField(
-                        onChangedEvent: (value) => OnChangeLastNameEvent(value),
-                        context: context,
-                        node: lastNameFocus,
-                        validator: AppValidations.validateRequired,
-                        isEnabled: false,
-                        label: 'Last Name',
-                        controller: txtLastName,
-                        keyboardType: TextInputType.text,
-                      ),
-                      buildHeightSizedBox(10),
-                      buildDefaultText(text: 'Email Id '),
-                      buildDefaultTextField(
-                        onChangedEvent: (value) => OnChangeEmailIdEvent(value),
-                        context: context,
-                        node: emailFocus,
-                        validator: AppValidations.validateEmail,
-                        isEnabled: false,
-                        label: 'dreamvila@gmail.com',
-                        controller: txtEmail,
-                        keyboardType: TextInputType.text,
-                      ),
-                      buildHeightSizedBox(10),
-                      buildDefaultText(text: 'Mobile'),
-                      buildDefaultTextField(
-                        onChangedEvent: (value) =>
-                            OnChangeMobileEvent(int.parse(value)),
-                        node: mobileFocus,
-                        context: context,
-                        validator: AppValidations.validateNumber,
-                        isEnabled: false,
-                        label: '+91',
-                        controller: txtMobile,
-                        keyboardType: TextInputType.number,
-                      ),
-                      buildHeightSizedBox(10),
-                      buildDefaultText(text: 'Gender'),
-                      buildGenderRadio(),
-                      buildDefaultText(text: 'Upload User Profile'),
-                      buildHeightSizedBox(10),
-                      Align(
-                        alignment: Alignment.center,
-                        child: buildImageUploadContainer(),
-                      ),
-                      buildHeightSizedBox(10),
-                      buildDefaultText(text: 'Password'),
-                      buildDefaultTextField(
-                        onChangedEvent: (value) => OnChangePasswordEvent(value),
-                        context: context,
-                        validator: AppValidations.validatePassword,
-                        isEnabled: true,
-                        node: passwordFocus,
-                        label: 'Password',
-                        controller: txtPassword,
-                        keyboardType: TextInputType.number,
-                        obscureText: true,
-                      ),
-                      buildHeightSizedBox(10),
-                      buildDefaultText(text: 'Confirm Password'),
-                      buildDefaultTextField(
-                        onChangedEvent: (value) =>
-                            OnChangeConfirmPasswordEvent(value),
-                        context: context,
-                        node: confirmPasswordFocus,
-                        isEnabled: true,
-                        label: 'Confirm Password',
-                        validator: (value) =>
-                            AppValidations.validateConfirmPassword(
-                              value,
-                              txtPassword.text,
-                            ),
-                        controller: txtConfirmPassword,
-                        keyboardType: TextInputType.number,
-                        obscureText: true,
-                      ),
-                      buildHeightSizedBox(10),
-                      buildDefaultText(text: 'Hobby'),
-                      Column(
-                        children: [
-                          buildRowCheckBox('Reading', 'Drawing'),
-                          buildRowCheckBox('Writing', 'Travelling'),
-                        ],
-                      ),
-                      buildHeightSizedBox(10),
-                      ElevatedButton(
-                        style: ThemeHelper.lightTheme.elevatedButtonTheme.style,
-                        onPressed: () {
-                          NavigaterService.pushNamedRemovePreviousScreen(
-                            AppRoutes.homepage,
-                          );
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              color: ThemeHelper.backgroundColors,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      spacing: 5,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildHeightSizedBox(30),
+                        Align(alignment: Alignment.center, child: logoImage()),
+                        buildHeightSizedBox(10),
+                        buildDefaultText(text: 'First Name'),
+                        buildDefaultTextField(
+                          context: context,
+                          validator: AppValidations.validateRequired,
+                          node: firstNameFocus,
+                          isEnabled: false,
+                          label: 'First Name',
+                          controller: txtFirstName,
+                          keyboardType: TextInputType.text,
                         ),
-                      ),
-                      buildHeightSizedBox(14),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          buildDefaultText(text: 'Already have an account?'),
-                          GestureDetector(
-                            onTap: () {
-                              NavigaterService.pushNamedRemovePreviousScreen(
-                                AppRoutes.login,
-                              );
-                            },
-                            child: Text(
-                              'Sign In',
-                              style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  color: ThemeHelper.primaryColors,
-                                  fontWeight: FontWeight.w400,
+                        buildHeightSizedBox(10),
+                        buildDefaultText(text: 'Last Name'),
+                        buildDefaultTextField(
+                          context: context,
+                          node: lastNameFocus,
+                          validator: AppValidations.validateRequired,
+                          isEnabled: false,
+                          label: 'Last Name',
+                          controller: txtLastName,
+                          keyboardType: TextInputType.text,
+                        ),
+                        buildHeightSizedBox(10),
+                        buildDefaultText(text: 'Email Id '),
+                        buildDefaultTextField(
+                          context: context,
+                          node: emailFocus,
+                          validator: AppValidations.validateEmail,
+                          isEnabled: false,
+                          label: 'dreamvila@gmail.com',
+                          controller: txtEmail,
+                          keyboardType: TextInputType.text,
+                        ),
+                        buildHeightSizedBox(10),
+                        buildDefaultText(text: 'Mobile'),
+                        buildDefaultTextField(
+                          node: mobileFocus,
+                          context: context,
+                          validator: AppValidations.validateMobile,
+                          isEnabled: false,
+                          label: '+91',
+                          controller: txtMobile,
+                          keyboardType: TextInputType.number,
+                        ),
+                        buildHeightSizedBox(10),
+                        buildDefaultText(text: 'Gender'),
+                        buildGenderRadio(state, context),
+                        buildDefaultText(text: 'Upload User Profile'),
+                        buildHeightSizedBox(10),
+                        Align(
+                          alignment: Alignment.center,
+                          child: buildImageUploadContainer(state, context),
+                        ),
+                        buildHeightSizedBox(10),
+                        buildDefaultText(text: 'Password'),
+                        buildDefaultTextField(
+                          context: context,
+                          validator: AppValidations.validatePassword,
+                          isEnabled: true,
+                          node: passwordFocus,
+                          label: 'Password',
+                          controller: txtPassword,
+                          keyboardType: TextInputType.text,
+                          obscureText: state.isPasswordVisible,
+                          event: PasswordVisibilityEvent(),
+                        ),
+                        buildHeightSizedBox(10),
+                        buildDefaultText(text: 'Confirm Password'),
+                        buildDefaultTextField(
+                          context: context,
+                          node: confirmPasswordFocus,
+                          isEnabled: true,
+                          label: 'Confirm Password',
+                          event: ConfirmPasswordVisibilityEvent(),
+                          validator: (value) =>
+                              AppValidations.validateConfirmPassword(
+                                value,
+                                txtPassword.text,
+                              ),
+                          controller: txtConfirmPassword,
+                          keyboardType: TextInputType.text,
+                          obscureText: state.isConfirmPasswordVisible,
+                        ),
+                        buildHeightSizedBox(10),
+                        buildDefaultText(text: 'Hobby'),
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              spacing: 50,
+                              children: [
+                                buildRowCheckBox(
+                                  _hobbies[0],
+                                  state.hobbyList.contains(_hobbies[0]),
+                                  (p0) {
+                                    context.read<RegistrationBloc>().add(
+                                      OnChangeHobbyEvent(_hobbies[0]),
+                                    );
+                                  },
                                 ),
+                                buildRowCheckBox(
+                                  _hobbies[1],
+                                  state.hobbyList.contains(_hobbies[1]),
+                                  (p0) {
+                                    context.read<RegistrationBloc>().add(
+                                      OnChangeHobbyEvent(_hobbies[1]),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              spacing: 43,
+                              children: [
+                                buildRowCheckBox(
+                                  _hobbies[2],
+                                  state.hobbyList.contains(_hobbies[2]),
+                                  (p0) {
+                                    context.read<RegistrationBloc>().add(
+                                      OnChangeHobbyEvent(_hobbies[2]),
+                                    );
+                                  },
+                                ),
+                                buildRowCheckBox(
+                                  _hobbies[3],
+                                  state.hobbyList.contains(_hobbies[3]),
+                                  (p0) {
+                                    context.read<RegistrationBloc>().add(
+                                      OnChangeHobbyEvent(_hobbies[3]),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        buildHeightSizedBox(10),
+                        ElevatedButton(
+                          style:
+                              ThemeHelper.lightTheme.elevatedButtonTheme.style,
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              RegistrationModal data = RegistrationModal(
+                                hobby: state.hobbyList,
+                                firstName: txtLastName.text,
+                                lastName: txtLastName.text,
+                                emailId: txtEmail.text,
+                                mobile: double.parse(txtMobile.text),
+                                gender: state.gender,
+                                password: txtPassword.text,
+                                image: state.image!,
+                              );
+                              context.read<RegistrationBloc>().add(
+                                SignUpButtonEvent(data),
+                              );
+                            }
+                          },
+                          child: Text(
+                            'Sign Up',
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                color: ThemeHelper.backgroundColors,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      buildHeightSizedBox(2),
-                      buildDefaultSignUpWithOther(),
-                      buildHeightSizedBox(41),
-                    ],
+                        ),
+                        buildHeightSizedBox(14),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            buildDefaultText(text: 'Already have an account?'),
+                            GestureDetector(
+                              onTap: () {
+                                NavigaterService.pushNamedRemovePreviousScreen(
+                                  AppRoutes.login,
+                                );
+                              },
+                              child: Text(
+                                'Sign In',
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    color: ThemeHelper.primaryColors,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        buildHeightSizedBox(2),
+                        buildDefaultSignUpWithOther(),
+                        buildHeightSizedBox(41),
+                      ],
+                    ),
                   ),
                 ),
               ),

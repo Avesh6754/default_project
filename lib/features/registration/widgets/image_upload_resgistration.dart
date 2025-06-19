@@ -1,11 +1,16 @@
+import 'package:default_project/features/registration/bloc/resgistration_bloc.dart';
+import 'package:default_project/features/registration/bloc/resgistration_event.dart';
+import 'package:default_project/features/registration/bloc/resgistration_state.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theme/theme_helper.dart';
+import 'image_view.dart';
 
 
 
-Widget buildImageUploadContainer() {
+Widget buildImageUploadContainer(RegistrationState state,BuildContext context) {
   return DottedBorder(
     options: RoundedRectDottedBorderOptions(
       dashPattern: [10,5],
@@ -17,12 +22,16 @@ Widget buildImageUploadContainer() {
     child: Container(
       height: 99,
       width: 220,
-      decoration: BoxDecoration(),
-      child: Column(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16)
+      ),
+      child: state.image != null? CustomImageView(imagePath: state.image!.path.toString(),fit: BoxFit.cover,): Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<RegistrationBloc>().add(ImagePickerEvent());
+            },
             icon: Icon(
               Icons.cloud_upload_outlined,
               color: ThemeHelper.primaryColors,

@@ -1,13 +1,36 @@
+import 'package:default_project/core/api_config/client/api_client.dart';
+import 'package:default_project/core/api_config/endpoints/endpoints.dart';
+import 'package:default_project/features/registration/model/registration_modal.dart';
 import 'package:dio/dio.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-class ApiData {
-  Dio _dio = Dio();
+class RegistrationRepository {
+  final ApiClient apiClient;
 
-  ApiData() {
-    _dio.options.baseUrl = "https://interview.flexioninfotech.com";
-    _dio.interceptors.add(PrettyDioLogger());
+  RegistrationRepository({required this.apiClient});
+
+  Future<bool> registrationApi(RegistrationModal data) async {
+    FormData formData = FormData.fromMap({
+      'firstName': data.firstName,
+      'lastName': data.lastName,
+      'gender': data.gender.toString(),
+      'hobby': data.hobby.join(','),
+      'email': data.emailId,
+      'mobile': data.mobile.toString(),
+      'password': data.password,
+      'image': await MultipartFile.fromFile(
+        data.image.path,
+        filename: data.image.path.split('/').last,
+      ),
+    });
+    var response = await apiClient.request(
+      RequestType.POST,
+      ApiEndPoint.signUpUrl,
+      data: formData,
+    );
+    if (response['status'] == true && response['data'] != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
-
-  Dio get sendRequest => _dio;
 }

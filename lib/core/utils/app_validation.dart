@@ -80,22 +80,22 @@ class AppValidations {
   }
 
   /// Validates if the value is a number within a specific range
-  static String? validateNumber(String? value, {int? min, int? max}) {
+  static String? validateMobile(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'This field is required.';
+      return 'Mobile number is required.';
     }
-    final number = int.tryParse(value.trim());
-    if (number == null) {
-      return 'Please enter a valid number.';
+
+    final trimmedValue = value.trim();
+
+    // Only digits, and 10 digits long
+    final regex = RegExp(r'^[6-9]\d{9}$');
+    if (!regex.hasMatch(trimmedValue)) {
+      return 'Please enter a valid 10-digit mobile number.';
     }
-    if (min != null && number < min) {
-      return 'Value must be at least $min.';
-    }
-    if (max != null && number > max) {
-      return 'Value must be less than or equal to $max.';
-    }
+
     return null;
   }
+
 
   /// Validates if the URL is valid
   static String? validateUrl(String? value) {
