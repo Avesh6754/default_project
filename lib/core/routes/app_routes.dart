@@ -1,3 +1,4 @@
+import 'package:default_project/features/addproperty/presentation/page/add_property_section.dart';
 import 'package:default_project/features/detail/presentation/page/deatil_screen.dart';
 import 'package:default_project/features/home/presentation/page/home_screen.dart';
 import 'package:default_project/features/login/presentation/page/login_screen.dart';
@@ -11,6 +12,7 @@ class AppRoutes {
   static const String login = '/login';
   static const String homepage = '/homePage';
   static const String detailPage = '/detailPage';
+  static const String addPropertyPage = '/addPropertyPage';
 
 
   static Map<String, WidgetBuilder> get routes => {
@@ -18,6 +20,7 @@ class AppRoutes {
     registration: Registration.builder,
     login: LoginScreen.builder,
     homepage:HomeScreen.builder,
-    detailPage:DetailScreen.builder
+    detailPage:DetailScreen.builder,
+    addPropertyPage: AddPropertySection.builder,
   };
 }

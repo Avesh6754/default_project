@@ -6,9 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/common_widgets_details.dart';
-import '../widgets/image_slider.dart';
+import '../widgets/detail_section.dart';
+import '../widgets/image_section.dart';
 
-class DetailScreen extends StatelessWidget {
+import '../widgets/smooth_indicator_section.dart';
+
+int currentIndex = 0;
+
+class DetailScreen extends StatefulWidget {
   static Widget builder(BuildContext context) {
     return const DetailScreen();
   }
@@ -16,114 +21,80 @@ class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key});
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeHelper.backgroundColors,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          spacing: 20,
+          spacing: 10,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             buildHeightSizedBox(20),
-            buildImageCarouselSlider(),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 200.0,
+                enlargeCenterPage: true,
+
+                autoPlay: true,
+                aspectRatio: 16 / 9,
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enableInfiniteScroll: true,
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                viewportFraction: 1,
+                initialPage: currentFilterIndex,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+              ),
+              items: (propertyList[0]['imageList'] as List<dynamic>).map((
+                item,
+              ) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return buildImageSection(item);
+                  },
+                );
+              }).toList(),
+            ),
+            buildDotIndicatorAlign(),
+            buildHeightSizedBox(10),
+
             Wrap(
               children: [
                 buildTextMethod('Limited Time ', ThemeHelper.secondaryColors),
-                buildTextMethod(
-                  '${propertyList[0]['building_name']} ',
-                  ThemeHelper.primaryColors,
+                Text(
+                  '${propertyList[0]['building_name']}',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                      color: ThemeHelper.primaryColors,
+                    ),
+                  ),
                 ),
                 buildTextMethod('is coming back!', ThemeHelper.secondaryColors),
               ],
             ),
-            buildTextCommon('Description'),
-            Expanded(
-              child: Card(
-                color: ThemeHelper.backgroundColors,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      spacing: 20,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildTextCard(
-                          '${propertyList[currentFilterIndex]['description']}',
-                          false,
-                        ),
-                        const SizedBox(height: 5),
-                        buildDescriptionCard('Location : ',
-                            '${propertyList[currentFilterIndex]['address']}'),
-                        buildDescriptionCard('Price : ',    '\$ ${propertyList[currentFilterIndex]['price']}'),
-                        buildDescriptionCard('Discount : ',    ' ${propertyList[currentFilterIndex]['discount']}'),
-                        buildDescriptionCard('Rating : ',    '${propertyList[currentFilterIndex]['rating']}'),
-                        buildDescriptionCard('Type : ',    '${propertyList[currentFilterIndex]['types_of_house']}'),
-                        buildDescriptionCard('Plot : ',    '${propertyList[currentFilterIndex]['plots']}'),
-                        buildDescriptionCard('Bedroom : ',    '${propertyList[currentFilterIndex]['bedroom']}'),
-                        buildDescriptionCard('Hall : ',    '${propertyList[currentFilterIndex]['hall']}'),
-                        buildDescriptionCard('Kitchen : ',    '${propertyList[currentFilterIndex]['kitchen']}'),
-                        buildDescriptionCard('Washroom : ',    '${propertyList[currentFilterIndex]['washroom']}'),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            buildHeightSizedBox(5),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: buildTextCommon('Description'),
             ),
+            buildDetailsSectionExpanded(),
+            buildHeightSizedBox(40),
           ],
         ),
       ),
     );
   }
-
-
 }
-
-// Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// CarouselSlider(
-// options: CarouselOptions(
-// height: 200.0,
-// enlargeCenterPage: true,
-// autoPlay: true,
-// aspectRatio: 16 / 9,
-// autoPlayCurve: Curves.fastOutSlowIn,
-// enableInfiniteScroll: true,
-// autoPlayAnimationDuration: Duration(milliseconds: 800),
-// viewportFraction: 0.8,
-// ),
-// items: (propertyList[0]['imageList'] as List<dynamic>).map((item) {
-// return Builder(
-// builder: (BuildContext context) {
-// return Container(
-// width: MediaQuery.of(context).size.width,
-// margin: EdgeInsets.symmetric(horizontal: 5.0),
-// decoration: BoxDecoration(
-// borderRadius: BorderRadius.circular(10),
-// color: Colors.grey[200],
-// image: DecorationImage(
-// image: NetworkImage(item), // Ensure image URLs are valid
-// fit: BoxFit.cover,
-// ),
-// ),
-// );
-// },
-// );
-// }).toList(),
-// ),
-// const SizedBox(height: 20),
-// Wrap(
-// children: [
-// buildTextMethod('Limited Time ', ThemeHelper.secondaryColors),
-// buildTextMethod(
-// '${propertyList[0]['building_name']} ',
-// ThemeHelper.primaryColors,
-// ),
-// buildTextMethod('is coming back!', ThemeHelper.secondaryColors),
-// ],
-// ),
-// ...
-// ],
-// )

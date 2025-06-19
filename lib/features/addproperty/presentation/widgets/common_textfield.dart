@@ -1,34 +1,22 @@
-import 'package:default_project/core/theme/theme_helper.dart';
-import 'package:default_project/features/registration/bloc/resgistration_bloc.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/utils/custome_size_box.dart';
-import '../bloc/resgistration_event.dart';
+import '../../../../core/theme/theme_helper.dart';
 
-
-
-Widget buildDefaultTextField({
+Widget buildAddPropertyDefaultTextField({
   required String label,
   required bool isEnabled,
   required TextEditingController controller,
   required TextInputType keyboardType,
-  required FocusNode node,
   bool obscureText = false,
+  bool isAddress=false,
   String? Function(String?)? validator,
-  required BuildContext context,
-  required RegistrationEvent Function(String) onChangedEvent, // 👈 Pass event creator
 }) {
   return Padding(
     padding: const EdgeInsets.only(right: 10, left: 10),
     child: TextFormField(
+      maxLines:(isAddress)?3:1,
       controller: controller,
-      focusNode: node,
-      onChanged: (value) {
-        context.read<RegistrationBloc>().add(onChangedEvent(value));
-      },
       keyboardType: keyboardType,
       obscureText: obscureText,
       decoration: InputDecoration(
@@ -45,13 +33,13 @@ Widget buildDefaultTextField({
         hintStyle: ThemeHelper.lightTheme.inputDecorationTheme.hintStyle,
         border: ThemeHelper.lightTheme.inputDecorationTheme.border,
       ),
+
       validator: validator,
     ),
   );
 }
 
-
-Widget buildDefaultText({required String text}) {
+Widget buildAddPropertyDefaultText({required String text}) {
   return Padding(
     padding: const EdgeInsets.only(right: 10, left: 10,bottom: 5),
     child: Text(
@@ -66,29 +54,3 @@ Widget buildDefaultText({required String text}) {
     ),
   );
 }
-
-
-Column logoImage() {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      buildHeightSizedBox(20),
-      Image(image: AssetImage('assets/jpg/logo.jpg'), height: 60, width: 250),
-      buildHeightSizedBox(20),
-      Text(
-        'Sign Up',
-        style: GoogleFonts.nunito(
-          textStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: ThemeHelper.primaryColors,
-            fontSize: 32,
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
-
-
-

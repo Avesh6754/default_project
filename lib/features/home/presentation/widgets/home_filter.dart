@@ -4,51 +4,76 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/theme_helper.dart';
 import '../../../../core/utils/global.dart';
 
-Container buildFilterContainer(int index) {
-  return (currentFilterIndex == index)
-      ? Container(
-          height: 40,
-          width: 104,
-          decoration: BoxDecoration(
-            color: ThemeHelper.backgroundColors,
-            borderRadius: BorderRadius.circular(12),
+Widget buildFilterContainer(int index) {
+  final bool isSelected = currentFilterIndex == index;
+
+  return (isSelected)
+      ? Card(
+          child: Container(
+            height: 40,
+            width: 104,
+            decoration: BoxDecoration(
+              color: ThemeHelper.backgroundColors,
+
+              borderRadius: BorderRadius.circular(12),
               boxShadow: [
-
-                // BoxShadow(
-                //   color: Colors.white.withOpacity(0.4), // Optional subtle white outer glow
-                //   blurStyle: BlurStyle.outer,
-                //   blurRadius: 3,
-                //   spreadRadius: 1,
-                //   offset: Offset(-2, -2),
-                // ),
+                BoxShadow(
+                  color: ThemeHelper.backgroundColors.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(-1, 1),
+                ),
               ],
-
-              border: Border.all(
-              color: ThemeHelper.textFieldColors.withOpacity(0.15),
-              width: 2
-            )
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            filterList[index],
-            style: GoogleFonts.lato(
-              textStyle: TextStyle(color: ThemeHelper.primaryColors),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              filterList[index],
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: ThemeHelper.primaryColors,
+                ),
+              ),
             ),
           ),
         )
       : Container(
-          height: 24,
-          width: 76,
-          decoration: BoxDecoration(),
+          height: 40,
+          width: 104,
+          decoration: BoxDecoration(
+            color: ThemeHelper.backgroundColors.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(12),
+          ),
           alignment: Alignment.center,
           child: Text(
             filterList[index],
             style: GoogleFonts.lato(
               textStyle: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
                 color: ThemeHelper.secondaryColors,
-                fontSize: 16,
               ),
             ),
           ),
         );
+}
+
+SizedBox buildTabBar(void Function(VoidCallback fn) setState) {
+  return SizedBox(
+    height: 50,
+    child: ListView.separated(
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) => GestureDetector(
+        onTap: () {
+          setState(() {
+            currentFilterIndex = index;
+          });
+        },
+        child: buildFilterContainer(index),
+      ),
+      separatorBuilder: (context, index) => SizedBox(width: 10),
+      itemCount: filterList.length,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+    ),
+  );
 }

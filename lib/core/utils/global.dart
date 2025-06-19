@@ -3,44 +3,8 @@ import 'package:flutter/material.dart';
 const List<String> filterList=['House','Villa','Land','Shop'];
 
 int currentFilterIndex = 0;
-final List<Widget> imageSliders = propertyList[currentFilterIndex]['imageList'].map((item) => Container(
-  margin: EdgeInsets.all(5.0),
-  child: ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-      child: Stack(
-        children: <Widget>[
-          Image.asset(item, fit: BoxFit.cover, width: 1000.0),
-          Positioned(
-            bottom: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(200, 0, 0, 0),
-                    Color.fromARGB(0, 0, 0, 0)
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ),
-              ),
-              padding: EdgeInsets.symmetric(
-                  vertical: 10.0, horizontal: 20.0),
-              child: Text(
-                'No. ${propertyList[currentFilterIndex]['imageList'].indexOf(item)} image',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
-      )),
-))
-    .toList();
+int currentDetailsIndex = 0;
+
 
 const List<Map<String,dynamic>> propertyList=[
   {
@@ -58,7 +22,7 @@ const List<Map<String,dynamic>> propertyList=[
     "rating": 4.5,
     "discount": "10%",
     "plots": 2,
-    "description": "A beautiful 3BHK apartment ",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Apartment",
     "bedroom": 3,
     "hall": 1,
@@ -80,7 +44,7 @@ const List<Map<String,dynamic>> propertyList=[
     ],
     "discount": "5%",
     "plots": 4,
-    "description": "Luxurious 4BHK villa with private garden, pool, and spacious interiors.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Villa",
     "bedroom": 4,
     "hall": 2,
@@ -102,7 +66,7 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/buiding4.jpg"
     ],
     "plots": 1,
-    "description": "Affordable row house with scenic mountain views and modern living space.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Row House",
     "bedroom": 2,
     "hall": 1,
@@ -124,7 +88,7 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/buiding4.jpg"
     ],
     "plots": 3,
-    "description": "Premium 3BHK high-rise apartment with a city view and smart home features.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Apartment",
     "bedroom": 3,
     "hall": 1,
@@ -146,7 +110,7 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/buiding3.jpg",
       "assets/jpg/buiding4.jpg"
     ],
-    "description": "Spacious 3BHK duplex ideal for families with ample parking and garden.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Duplex",
     "bedroom": 3,
     "hall": 2,
@@ -168,7 +132,7 @@ const List<Map<String,dynamic>> propertyList=[
     "rating": 4.3,
     "discount": "6%",
     "plots": 2,
-    "description": "Modern flat with all amenities near IT hub and shopping centers.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Flat",
     "bedroom": 2,
     "hall": 1,
@@ -190,7 +154,7 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/buiding4.jpg"
     ],
     "plots": 5,
-    "description": "Exclusive 5BHK villa with pool, home theater, and sea view.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Villa",
     "bedroom": 5,
     "hall": 2,
@@ -212,7 +176,7 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/buiding4.jpg"
     ],
     "plots": 2,
-    "description": "Comfortable 3BHK house in a peaceful locality with good schools nearby.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Independent House",
     "bedroom": 3,
     "hall": 1,
@@ -234,7 +198,7 @@ const List<Map<String,dynamic>> propertyList=[
     ],
     "discount": "3%",
     "plots": 1,
-    "description": "Premium 4BHK penthouse with terrace garden and panoramic city view.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Penthouse",
     "bedroom": 4,
     "hall": 2,
@@ -256,7 +220,7 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/buiding4.jpg"
     ],
     "plots": 6,
-    "description": "Eco-friendly 3BHK farmhouse with organic garden and mountain views.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Farmhouse",
     "bedroom": 3,
     "hall": 1,

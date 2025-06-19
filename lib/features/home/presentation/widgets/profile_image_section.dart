@@ -42,13 +42,13 @@ Row buildProfielImage() {
           Text(
             'Hello!',
             style: GoogleFonts.lato(
-              textStyle: TextStyle(fontSize: 14),
+              textStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w400),
             ),
           ),
           Text(
             'James Butler',
             style: GoogleFonts.lato(
-              textStyle: TextStyle(fontSize: 18),
+              textStyle: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),
             ),
           ),
         ],

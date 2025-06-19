@@ -19,14 +19,14 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(right: 20, left: 20),
+        padding: const EdgeInsets.only(right: 16, left: 16),
 
         child: Center(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 10,
+              spacing: 5,
               children: [
                 buildHeightSizedBox(30),
                 Align(alignment: Alignment.center, child: logoImage()),
@@ -42,23 +42,25 @@ class LoginScreen extends StatelessWidget {
                 buildLoginDefaultTextField(
                   label: 'Password',
                   isEnabled: true,
+                  obscureText: true,
                   controller: TextEditingController(),
                   keyboardType: TextInputType.number,
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    'Forgot Password ?',
-                    style: GoogleFonts.lato(
+                    'Forgot Password ?   ',
+                    style: GoogleFonts.roboto(
                       textStyle: TextStyle(
                         color: ThemeHelper.primaryColors,
                         fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
+
                       ),
                     ),
                   ),
                 ),
-                buildHeightSizedBox(15),
+                buildHeightSizedBox(30),
                 ElevatedButton(
                   style: ThemeHelper.lightTheme.elevatedButtonTheme.style,
                   onPressed: () {
@@ -72,12 +74,12 @@ class LoginScreen extends StatelessWidget {
                       textStyle: TextStyle(
                         color: ThemeHelper.backgroundColors,
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                 ),
-                buildHeightSizedBox(3),
+                buildHeightSizedBox(14),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

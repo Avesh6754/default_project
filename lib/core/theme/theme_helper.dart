@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ThemeHelper {
   static const Color primaryColors = Color(0xffFF6F42);
@@ -14,26 +15,32 @@ class ThemeHelper {
 
       appBarTheme: AppBarTheme(
         backgroundColor: primaryColors,
-        iconTheme: IconThemeData(color: secondaryColors),
-        titleTextStyle: TextStyle(color: secondaryColors, fontSize: 20),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        labelStyle: TextStyle(color: textFieldColors),
-
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            color: textFieldColors.withOpacity(0.2),
-            width: 1.0,
+        iconTheme: IconThemeData(color: backgroundColors),
+        elevation: 2,
+        titleTextStyle: GoogleFonts.nunito(
+          textStyle: TextStyle(
+            color: backgroundColors,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
         ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: GoogleFonts.nunito(
+          textStyle: TextStyle(color: Color(0xffCECCD9)),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Color(0xffCECCD9), width: 1.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Color(0xffCECCD9), width: 1.0),
+        ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            color: primaryColors,
-            width: 1.0,
-          ),
-        )
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: primaryColors, width: 1.0),
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -45,7 +52,16 @@ class ThemeHelper {
           ),
         ),
       ),
-
+      checkboxTheme: CheckboxThemeData(
+        checkColor: MaterialStateProperty.all(primaryColors),
+        fillColor: MaterialStateProperty.all(backgroundColors),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        side: WidgetStateBorderSide.resolveWith((states) {
+          return BorderSide(color: textFieldColors.withOpacity(0.5),width: 1);
+        },)
+      ),
     );
   }
 }

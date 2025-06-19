@@ -3,19 +3,24 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/theme_helper.dart';
 
-Row buildDescriptionCard(String text,String text2) {
+Widget buildDescriptionCard(String text, String text2) {
   return Row(
-    spacing: 20,
-    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      buildTextCommon(text),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          buildTextCard(text2, true),
-        ],
+      Expanded(
+        flex: 2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [buildTextCommon(text)],
+        ),
       ),
-
+      Expanded(
+        flex: 4,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [buildTextCard(text2, true)],
+        ),
+      ),
     ],
   );
 }
@@ -25,7 +30,7 @@ Text buildTextCard(String text, bool isPrimary) {
     text,
     style: GoogleFonts.lato(
       textStyle: TextStyle(
-        fontSize: 12,
+        fontSize: 16,
         fontWeight: FontWeight.w400,
         color: (isPrimary)
             ? ThemeHelper.primaryColors
@@ -39,7 +44,7 @@ Text buildTextCommon(String text) {
   return Text(
     text,
     style: GoogleFonts.lato(
-      textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+      textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
     ),
   );
 }
