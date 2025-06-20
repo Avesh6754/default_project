@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme_helper.dart';
-
 
 Column buildImageSection(item) {
   return Column(
@@ -30,5 +31,25 @@ Column buildImageSection(item) {
         ),
       ),
     ],
+  );
+}
+
+Widget buildAddPageImageSection(item) {
+  return Card(
+    color: ThemeHelper.backgroundColors,
+
+    child: Container(
+      width: double.infinity,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Image.file(
+          File(item),
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) =>
+              const Center(child: Text('Image load failed')),
+        ),
+      ),
+    ),
   );
 }

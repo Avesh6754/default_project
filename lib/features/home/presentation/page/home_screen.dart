@@ -1,5 +1,8 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:default_project/features/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:default_project/core/theme/theme_helper.dart';
 import 'package:default_project/core/utils/custome_size_box.dart';
@@ -20,32 +23,55 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildHeightSizedBox(20),
-              buildProfielImage(),
-              buildAddPropertyRow(),
-              buildHeightSizedBox(15),
-              buildTabBar(setState),
+    context.read<HomeBloc>().add(InitialiseEvent());
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarColor: Theme.of(context).secondaryHeaderColor,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent,
+      ),
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16, left: 16, top: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildHeightSizedBox(20),
+                buildProfielImage(),
+                buildAddPropertyRow(),
+                buildHeightSizedBox(15),
+                buildTabBar(setState),
 
-              buildHeightSizedBox(15),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: propertyList.length,
-                  itemBuilder: (context, index) {
-                    return PropertyCard(property: propertyList[index]);
+                buildHeightSizedBox(15),
+                BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                   if(state.currentStatus==Status.loading)
+                     {
+                       return Center(child: CircularProgressIndicator(),);
+                     }
+                   else if(state.currentStatus==Status.success)
+                     {
+                       return Expanded(
+                         child: ListView.builder(
+                           itemCount: state.productList!.data.length,
+                           itemBuilder: (context, index) {
+                             return PropertyCard(property: state.productList!.data[index],);
+                           },
+                         ),
+                       );
+                     }
+                   return Center(child: Text('Data Not Found'),);
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -20,7 +20,11 @@ class AppRoutes {
     registration: Registration.builder,
     login: LoginScreen.builder,
     homepage:HomeScreen.builder,
-    detailPage:DetailScreen.builder,
+    detailPage:(BuildContext context) {
+      final args = ModalRoute.of(context)!.settings.arguments;
+      final id=(args is String)?args:" ";
+      return DetailScreen(id: id);
+    },
     addPropertyPage: AddPropertySection.builder,
   };
 }

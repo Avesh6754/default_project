@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/routes/app_routes.dart';
+import '../../widgets/app_toast_message.dart';
 import '../widgets/gender_radio.dart';
 import '../widgets/hobby_method.dart';
 import '../widgets/image_upload_resgistration.dart';
@@ -59,10 +60,12 @@ class _RegistrationState extends State<Registration> {
       child: Scaffold(
         backgroundColor: ThemeHelper.backgroundColors,
         body: BlocConsumer<RegistrationBloc, RegistrationState>(
-          listenWhen: (previous, current) => current!=previous,
-          buildWhen: (previous, current) => current!=previous,
+
           listener: (context, state) {
             if (state.isLogin) {
+              AppToast.show(
+                message: 'Register Successfully',
+              ); // your custom toast
               NavigaterService.pushNamedRemovePreviousScreen(
                 AppRoutes.homepage,
               );

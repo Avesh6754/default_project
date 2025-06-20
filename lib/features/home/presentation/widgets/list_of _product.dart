@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:default_project/core/routes/app_routes.dart';
 import 'package:default_project/core/theme/theme_helper.dart';
 import 'package:default_project/core/utils/custome_size_box.dart';
 import 'package:default_project/core/utils/navigater_service.dart';
+import 'package:default_project/features/home/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../registration/widgets/image_view.dart';
+
 class PropertyCard extends StatelessWidget {
-  final Map<String, dynamic> property;
+  final ProductModel property;
 
   const PropertyCard({super.key, required this.property});
 
@@ -14,7 +19,10 @@ class PropertyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        NavigaterService.pushNextPage(AppRoutes.detailPage);
+        NavigaterService.pushNextPage(
+          AppRoutes.detailPage,
+          arguments: property.id,
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 10),
@@ -33,18 +41,33 @@ class PropertyCard extends StatelessWidget {
                   spacing: 10,
                   children: [
                     Expanded(
-                      child: Container(
-                        width: 85,
-                        height: 84,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: AssetImage(property['image']),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      child:
+                          (property.images[0] !=
+                              'https://i.dummyjson.com/data/products/1/1.jpg')
+                          ? Container(
+                              width: 85,
+                              height: 84,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: FileImage(File(property.thumbnail)),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          : Container(
+                              height: 84,
+                              width: 85,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: AssetImage('assets/jpg/buiding2.jpg'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
                     ),
+
                     Expanded(
                       flex: 2,
                       child: ListTile(
@@ -57,7 +80,7 @@ class PropertyCard extends StatelessWidget {
                               child: Text(
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                property['building_name'],
+                                property.title,
                                 style: GoogleFonts.lato(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -65,7 +88,7 @@ class PropertyCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '\$${property['price']}',
+                              '\$${property.price}',
                               style: GoogleFonts.lato(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -87,7 +110,7 @@ class PropertyCard extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    property['address'],
+                                    property.address,
                                     style: GoogleFonts.lato(
                                       fontSize: 10,
                                       color: ThemeHelper.textFieldColors,
@@ -101,7 +124,7 @@ class PropertyCard extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  'Plots ${property['plots']}',
+                                  'Plots ${property.plot}',
                                   style: GoogleFonts.lato(
                                     fontSize: 8,
                                     color: ThemeHelper.textFieldColors,
@@ -116,7 +139,7 @@ class PropertyCard extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '${property['discount']} Discount',
+                                  '${property.discountPercentage} Discount',
                                   style: GoogleFonts.lato(
                                     fontSize: 8,
                                     color: ThemeHelper.textFieldColors,
@@ -139,7 +162,7 @@ class PropertyCard extends StatelessWidget {
                                 ),
 
                                 Text(
-                                  '${property['rating']}',
+                                  '${property.rating}',
                                   style: GoogleFonts.lato(
                                     fontSize: 8,
                                     color: ThemeHelper.textFieldColors,

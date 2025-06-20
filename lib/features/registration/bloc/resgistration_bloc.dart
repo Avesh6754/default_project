@@ -3,14 +3,19 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:default_project/core/repository/repositiry_api_data.dart';
+import 'package:default_project/core/routes/app_routes.dart';
+import 'package:default_project/core/storage/secures_storage.dart';
 
 import 'package:default_project/core/utils/image_picker_section.dart';
+import 'package:default_project/core/utils/navigater_service.dart';
 import 'package:default_project/features/registration/bloc/resgistration_event.dart';
 import 'package:default_project/features/registration/bloc/resgistration_state.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:logger/logger.dart';
 
 class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
+  final authStorageService= AuthStorageService() ;
   final ProfileImage profileImage;
   final RegistrationRepository registrationRepository;
 
@@ -22,6 +27,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     on<OnChangeHobbyEvent>(_onChangeHobbyEvent);
     on<ImagePickerEvent>(_imagePickerEvent);
     on<SignUpButtonEvent>(_signUpButtonEvent);
+
   }
 
   FutureOr<void> _onChangeGenderEvent(
@@ -82,6 +88,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       event.registrationModal,
     );
     logger.d("${isLogin}");
+    authStorageService.setLoginStatus(isLogin);
+    NavigaterService.pushNamedRemovePreviousScreen(AppRoutes.homepage);
     emit(state.copyWith(isLogin: isLogin));
   }
+
 }

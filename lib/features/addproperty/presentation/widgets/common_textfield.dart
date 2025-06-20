@@ -1,7 +1,10 @@
+import 'package:default_project/features/addproperty/bloc/addproperty_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../core/theme/theme_helper.dart';
+import '../../../detail/presentation/page/deatil_screen.dart';
 
 Widget buildAddPropertyDefaultTextField({
   required String label,
@@ -50,6 +53,22 @@ Widget buildAddPropertyDefaultText({required String text}) {
           fontWeight: FontWeight.w500,
           color: ThemeHelper.secondaryColors,
         ),
+      ),
+    ),
+  );
+}
+
+Align buildAddProductDotIndicatorAlign(AddPropertyState state) {
+  return Align(
+    alignment: Alignment.center,
+    child: AnimatedSmoothIndicator(
+      activeIndex: currentIndex,
+      count: (state.image.isEmpty)?1:state.image.length,
+      effect: JumpingDotEffect(
+        dotHeight: 8,
+        dotWidth: 8,
+        activeDotColor: ThemeHelper.primaryColors,
+        dotColor: Colors.grey.shade400,
       ),
     ),
   );

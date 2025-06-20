@@ -1,4 +1,7 @@
+import 'package:default_project/features/login/bloc/login_bloc.dart';
+import 'package:default_project/features/login/bloc/login_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/theme_helper.dart';
@@ -30,6 +33,8 @@ Column logoImage() {
 }
 
 Widget buildLoginDefaultTextField({
+  LoginEvent? event,
+  required BuildContext context,
   required String label,
   required bool isEnabled,
   required TextEditingController controller,
@@ -45,7 +50,7 @@ Widget buildLoginDefaultTextField({
       obscureText: obscureText,
       decoration: InputDecoration(
         suffixIcon: (isEnabled)?IconButton(onPressed: () {
-
+        context.read<LoginBloc>().add(event!);
         }, icon: Icon(Icons.remove_red_eye_outlined,color: ThemeHelper.textFieldColors,)):null,
         hintText: label,
         hintStyle:ThemeHelper.lightTheme.inputDecorationTheme.labelStyle ,

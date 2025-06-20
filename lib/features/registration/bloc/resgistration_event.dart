@@ -13,6 +13,8 @@ abstract class RegistrationEvent extends Equatable {
 
 class PasswordVisibilityEvent extends RegistrationEvent {}
 
+
+
 class ConfirmPasswordVisibilityEvent extends RegistrationEvent {}
 
 class OnChangeGenderEvent extends RegistrationEvent {

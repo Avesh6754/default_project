@@ -14,11 +14,14 @@ import '../widgets/smooth_indicator_section.dart';
 int currentIndex = 0;
 
 class DetailScreen extends StatefulWidget {
-  static Widget builder(BuildContext context) {
-    return const DetailScreen();
-  }
+  const DetailScreen({super.key, required this.id});
 
-  const DetailScreen({super.key});
+  final String id;
+
+  static Widget builder(BuildContext context) {
+    final data = ModalRoute.of(context)!.settings.arguments;
+    return DetailScreen(id: data.toString());
+  }
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   bloc: any
   image_picker: any
+
   flutter_bloc: any
   pretty_dio_logger: ^1.4.0
   equatable: any
@@ -51,9 +52,11 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   shimmer: any
   logger: ^2.5.0
+  multi_image_picker_view: ^3.0.0
   toastification: any
   flutter_pretty_dio_logger: any
-
+  flutter_secure_storage: any
+  shared_preferences: any
   dio: ^5.8.0+1
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:toastification/toastification.dart';
 
@@ -13,8 +14,7 @@ class ApiClient {
     : _dio =
           Dio(
               BaseOptions(
-                baseUrl:
-                    'https://interview.flexioninfotech.com', // 🔥 Replace this with your actual base URL
+                // 🔥 Replace this with your actual base URL
                 headers: {'Content-Type': 'application/json'},
               ),
             )
@@ -41,12 +41,14 @@ class ApiClient {
   // --------------------------- HEADERS ---------------------------
 
   static Future<Map<String, String>> _buildHeaders() async {
+    final flutterSecureStorage = FlutterSecureStorage();
     final header = <String, String>{'Content-Type': 'application/json'};
-    // String? deviceToken = await Prefobj.preferences.get(Prefkeys.authToken);
+    String? deviceToken = await flutterSecureStorage.read(key: 'token');
 
-    // if (deviceToken != null && deviceToken.isNotEmpty) {
-    //   header['Authorization'] = 'Bearer $deviceToken';
-    // }
+    if (deviceToken != null && deviceToken.isNotEmpty) {
+      header['Authorization'] = 'Bearer $deviceToken';
+      print("///////////////////////////////$deviceToken///////////////");
+    }
     return header;
   }
 
@@ -55,10 +57,11 @@ class ApiClient {
   Future<Map<String, dynamic>> request(
     RequestType type,
     String path, {
-    dynamic data,
+    Map<String, dynamic>? data,
     Map<String, dynamic>? multipartData,
   }) async {
     try {
+      _dio.options.headers = await _buildHeaders();
       final Response response = switch (type) {
         RequestType.GET => await _dio.get(path),
         RequestType.POST => await _dio.post(path, data: data),
