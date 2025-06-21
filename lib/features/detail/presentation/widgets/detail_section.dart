@@ -1,3 +1,5 @@
+import 'package:default_project/features/detail/bloc/details_bloc.dart';
+import 'package:default_project/features/detail/model/details_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -5,7 +7,7 @@ import '../../../../core/theme/theme_helper.dart';
 import '../../../../core/utils/global.dart';
 import 'common_widgets_details.dart';
 
-Expanded buildDetailsSectionExpanded() {
+Expanded buildDetailsSectionExpanded(DetailsSelectedModel detailsSelectedModel) {
   return Expanded(
     child: Card(
       color: ThemeHelper.backgroundColors,
@@ -21,7 +23,7 @@ Expanded buildDetailsSectionExpanded() {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${propertyList[currentFilterIndex]['description']}',
+                detailsSelectedModel.description,
                 style: GoogleFonts.raleway(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
@@ -30,43 +32,43 @@ Expanded buildDetailsSectionExpanded() {
               ),
               buildDescriptionCard(
                 'Location : ',
-                '${propertyList[currentFilterIndex]['address']}',
+                detailsSelectedModel.address,
               ),
               buildDescriptionCard(
                 'Price : ',
-                '\$ ${propertyList[currentFilterIndex]['price']}',
+                '\$ ${ detailsSelectedModel.price}',
               ),
               buildDescriptionCard(
                 'Discount : ',
-                ' ${propertyList[currentFilterIndex]['discount']}',
+                ' ${ detailsSelectedModel.discountPercentage}',
               ),
               buildDescriptionCard(
                 'Rating : ',
-                '${propertyList[currentFilterIndex]['rating']}',
+                '${ detailsSelectedModel.rating}',
               ),
               buildDescriptionCard(
                 'Type : ',
-                '${propertyList[currentFilterIndex]['types_of_house']}',
+                detailsSelectedModel.type,
               ),
               buildDescriptionCard(
                 'Plot : ',
-                '${propertyList[currentFilterIndex]['plots']}',
+                '${ detailsSelectedModel.plot}',
               ),
               buildDescriptionCard(
                 'Bedroom : ',
-                '${propertyList[currentFilterIndex]['bedroom']}',
+                '${ detailsSelectedModel.bedroom}',
               ),
               buildDescriptionCard(
                 'Hall : ',
-                '${propertyList[currentFilterIndex]['hall']}',
+                '${ detailsSelectedModel.hall}',
               ),
               buildDescriptionCard(
                 'Kitchen : ',
-                '${propertyList[currentFilterIndex]['kitchen']}',
+                '${ detailsSelectedModel.kitchen}',
               ),
               buildDescriptionCard(
                 'Washroom : ',
-                '${propertyList[currentFilterIndex]['washroom']}',
+                '${ detailsSelectedModel.washroom}',
               ),
             ],
           ),

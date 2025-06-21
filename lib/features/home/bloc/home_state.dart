@@ -1,8 +1,8 @@
 part of 'home_bloc.dart';
 
 @immutable
-enum Status { loading, success, fail }
 
+enum Status { loading, success, error }
 class HomeState extends Equatable {
   final String errorMessage;
   final Status currentStatus;

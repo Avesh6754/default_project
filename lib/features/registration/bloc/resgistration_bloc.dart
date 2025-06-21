@@ -14,10 +14,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:logger/logger.dart';
 
+import '../../../core/storage/secures_status_login.dart';
+
 class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   final authStorageService= AuthStorageService() ;
   final ProfileImage profileImage;
   final RegistrationRepository registrationRepository;
+  final saveInStorage=SaveStatusData();
 
   RegistrationBloc(this.profileImage, this.registrationRepository)
     : super(RegistrationState()) {
@@ -88,7 +91,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       event.registrationModal,
     );
     logger.d("${isLogin}");
+    saveInStorage.setData(isLogin);
     authStorageService.setLoginStatus(isLogin);
+
     NavigaterService.pushNamedRemovePreviousScreen(AppRoutes.homepage);
     emit(state.copyWith(isLogin: isLogin));
   }

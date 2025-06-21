@@ -7,11 +7,11 @@ class HomeProductRepository {
 
   HomeProductRepository(this.apiClient);
 
-  Future<ProductListResponse?> fetchProductData() async {
+  Future<ProductListResponse?> fetchProductData(String type) async {
     try {
       var response = await apiClient.request(
         RequestType.GET,
-        ApiEndPoint.homeProductUrl,
+        '${ApiEndPoint.homeProductUrl}$type',
       );
       print("Response from API: $response");
 
@@ -25,6 +25,4 @@ class HomeProductRepository {
     }
     return null;
   }
-
-
 }

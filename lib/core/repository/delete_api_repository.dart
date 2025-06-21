@@ -6,10 +6,10 @@ class DeleteApiRepository {
 
   DeleteApiRepository(this.apiClient);
 
-  Future<bool> deleteApi() async {
+  Future<bool> deleteApi(String id) async {
     var response = await apiClient.request(
       RequestType.DELETE,
-      ApiEndPoint.deleteApi,
+      '${ApiEndPoint.deleteApi}/$id',
     );
     if (response['status'] == true) {
       return true;

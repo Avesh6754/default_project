@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme_helper.dart';
+import '../../../registration/widgets/image_view.dart';
 
 Column buildImageSection(item) {
   return Column(
@@ -10,23 +11,16 @@ Column buildImageSection(item) {
     children: [
       Expanded(
         child: Card(
-          color: ThemeHelper.backgroundColors,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Container(
-              height: 173,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: ThemeHelper.textFieldColors,
-                image: DecorationImage(
-                  image: AssetImage(item),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+          color: Colors.white,
+          shadowColor: ThemeHelper.textFieldColors,
+          child: CustomImageView(
+            imagePath: item,
+            height: 25,
+            width: double.infinity,
+            radius: BorderRadius.circular(10),
           ),
         ),
       ),

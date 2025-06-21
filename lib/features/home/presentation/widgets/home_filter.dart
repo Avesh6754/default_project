@@ -1,4 +1,6 @@
+import 'package:default_project/features/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/theme_helper.dart';
@@ -67,6 +69,7 @@ SizedBox buildTabBar(void Function(VoidCallback fn) setState) {
         onTap: () {
           setState(() {
             currentFilterIndex = index;
+            context.read<HomeBloc>().add(InitialiseEvent(filterList[index].toLowerCase()));
           });
         },
         child: buildFilterContainer(index),

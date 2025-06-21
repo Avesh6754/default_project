@@ -12,25 +12,25 @@ Widget buildAddPropertyDefaultTextField({
   required TextEditingController controller,
   required TextInputType keyboardType,
   bool obscureText = false,
-  bool isAddress=false,
+  bool isAddress = false,
   String? Function(String?)? validator,
 }) {
   return Padding(
     padding: const EdgeInsets.only(right: 10, left: 10),
     child: TextFormField(
-      maxLines:(isAddress)?3:1,
+      maxLines: (isAddress) ? 3 : 1,
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
       decoration: InputDecoration(
         suffixIcon: (isEnabled)
             ? IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.remove_red_eye_outlined,
-            color: ThemeHelper.textFieldColors,
-          ),
-        )
+                onPressed: () {},
+                icon: Icon(
+                  Icons.remove_red_eye_outlined,
+                  color: ThemeHelper.textFieldColors,
+                ),
+              )
             : null,
         hintText: label,
         hintStyle: ThemeHelper.lightTheme.inputDecorationTheme.hintStyle,
@@ -44,7 +44,7 @@ Widget buildAddPropertyDefaultTextField({
 
 Widget buildAddPropertyDefaultText({required String text}) {
   return Padding(
-    padding: const EdgeInsets.only(right: 10, left: 10,bottom: 5),
+    padding: const EdgeInsets.only(right: 10, left: 10, bottom: 5),
     child: Text(
       text,
       style: GoogleFonts.lato(
@@ -58,12 +58,19 @@ Widget buildAddPropertyDefaultText({required String text}) {
   );
 }
 
-Align buildAddProductDotIndicatorAlign(AddPropertyState state) {
+Align buildAddProductDotIndicatorAlign(
+  AddPropertyState state,
+  List<String> imageList,
+) {
   return Align(
     alignment: Alignment.center,
     child: AnimatedSmoothIndicator(
       activeIndex: currentIndex,
-      count: (state.image.isEmpty)?1:state.image.length,
+      count: (state.image.isEmpty)
+          ? (imageList.isEmpty)
+                ? 1
+                : imageList.length
+          : state.image.length,
       effect: JumpingDotEffect(
         dotHeight: 8,
         dotWidth: 8,

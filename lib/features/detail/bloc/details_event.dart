@@ -15,3 +15,11 @@ final String id;
   @override
   List<Object?> get props => [id];
 }
+
+class ChangeImageIndexEvent extends DetailsEvent{
+  final int index;
+
+  const ChangeImageIndexEvent(this.index);
+  @override
+  List<Object?> get props => [index];
+}

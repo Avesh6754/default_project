@@ -11,7 +11,7 @@ import '../../../detail/presentation/page/deatil_screen.dart';
 import '../../../detail/presentation/widgets/image_section.dart';
 
 Widget
-buildImageAddPropertyContainer(BuildContext context,AddPropertyState state,void Function(VoidCallback fn) setState) {
+buildImageAddPropertyContainer(BuildContext context,AddPropertyState state,void Function(VoidCallback fn) setState,List<String> imageList) {
   return DottedBorder(
     options: RoundedRectDottedBorderOptions(
       dashPattern: [10,5],
@@ -24,7 +24,7 @@ buildImageAddPropertyContainer(BuildContext context,AddPropertyState state,void 
       height: 99,
       width: 200,
       decoration: BoxDecoration(),
-      child:(state.image.isNotEmpty)?CarouselSlider(
+      child:(state.image.isNotEmpty || imageList.isNotEmpty)?CarouselSlider(
         options: CarouselOptions(
           height: 200.0,
           enlargeCenterPage: true,
@@ -41,7 +41,7 @@ buildImageAddPropertyContainer(BuildContext context,AddPropertyState state,void 
             });
           },
         ),
-        items: state.image.map((
+        items:(imageList.isEmpty)? state.image.map((
             item,
             ) {
           return Builder(
@@ -49,7 +49,15 @@ buildImageAddPropertyContainer(BuildContext context,AddPropertyState state,void 
               return buildAddPageImageSection(item);
             },
           );
-        }).toList(),
+        }).toList():imageList.map((
+            item,
+            ) {
+          return Builder(
+            builder: (BuildContext context) {
+              return buildAddPageImageSection(item);
+            },
+          );
+        }).toList()
       ): Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

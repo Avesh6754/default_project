@@ -4,6 +4,7 @@ import 'package:default_project/core/utils/navigater_service.dart';
 import 'package:default_project/features/addproperty/bloc/addproperty_bloc.dart';
 import 'package:default_project/features/addproperty/model/add_property_model.dart';
 import 'package:default_project/features/home/bloc/home_bloc.dart';
+import 'package:default_project/features/home/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,17 +16,35 @@ import '../widgets/property_details_input.dart';
 import '../widgets/property_image_upload.dart';
 
 class AddPropertySection extends StatefulWidget {
-  static Widget builder(BuildContext context) {
-    return AddPropertySection();
-  }
+  final ProductModel? addProductModal;
 
-  const AddPropertySection({super.key});
+  const AddPropertySection({super.key, required this.addProductModal});
 
   @override
   State<AddPropertySection> createState() => _AddPropertySectionState();
 }
 
 class _AddPropertySectionState extends State<AddPropertySection> {
+  @override
+  void initState() {
+    super.initState();
+    final data = widget.addProductModal;
+    if (data != null) {
+      txtTitle.text = data.title;
+      txtDescription.text = data.description;
+      txtAddress.text = data.address;
+      txtPrice.text = data.price.toString();
+      txtDiscountPercentage.text = data.discountPercentage.toString();
+      txtRating.text = data.rating.toString();
+      txtPlot.text = data.plot.toString();
+      txtType.text = data.type;
+      txtBedroom.text = data.bedroom.toString();
+      txtHall.text = data.hall.toString();
+      txtKitchen.text = data.kitchen.toString();
+      txtWashroom.text = data.washroom.toString();
+    }
+  }
+
   var txtTitle = TextEditingController();
   var txtDescription = TextEditingController();
 
@@ -43,21 +62,38 @@ class _AddPropertySectionState extends State<AddPropertySection> {
 
   @override
   Widget build(BuildContext context) {
+    final updateImage = widget.addProductModal;
+    final image=updateImage?.images??[];
     return Scaffold(
       backgroundColor: ThemeHelper.backgroundColors,
       appBar: AppBar(
         backgroundColor: ThemeHelper.lightTheme.appBarTheme.backgroundColor,
         iconTheme: ThemeHelper.lightTheme.appBarTheme.iconTheme,
-        title: Text('Add Property'),
+        title: Text(
+          widget.addProductModal == null ? 'Add Property' : 'Update Property',
+          style: GoogleFonts.lato(
+            textStyle: TextStyle(
+              color: ThemeHelper.backgroundColors,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
         titleTextStyle: ThemeHelper.lightTheme.appBarTheme.titleTextStyle,
+        leading: IconButton(
+          onPressed: () {
+            NavigaterService.backPage(AppRoutes.homepage);
+          },
+          icon: Icon(Icons.arrow_back, color: ThemeHelper.backgroundColors),
+        ),
       ),
       body: BlocConsumer<AddPropertyBloc, AddPropertyState>(
         listener: (context, state) {
           if (state.status == Current.success) {
-            NavigaterService.backPage(AppRoutes.homepage);
-            context.read<HomeBloc>().add(InitialiseEvent());
+            context.read<HomeBloc>().add(InitialiseEvent('house'));
           }
         },
+
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.only(right: 16, left: 16),
@@ -114,21 +150,21 @@ class _AddPropertySectionState extends State<AddPropertySection> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         buildAddPropertyDefaultText(text: 'Image Upload'),
-                        TextButton(
+                        (updateImage?.images!=null)?  TextButton(
                           onPressed: () {
-                            context.read<AddPropertyBloc>().add(
-                              ClearAllPickImage(),
-                            );
+                            setState(() {
+                              updateImage?.images.clear();
+                            });
                           },
                           child: Text(
-                            'Clear',
+                            'Clear All',
                             style: GoogleFonts.lato(
                               textStyle: TextStyle(
                                 color: ThemeHelper.primaryColors,
                               ),
                             ),
                           ),
-                        ),
+                        ):SizedBox(width: 10,)
                       ],
                     ),
                     Align(
@@ -139,9 +175,13 @@ class _AddPropertySectionState extends State<AddPropertySection> {
                             context,
                             state,
                             setState,
+                            updateImage?.images??[],
                           ),
                           buildHeightSizedBox(10),
-                          buildAddProductDotIndicatorAlign(state),
+                          buildAddProductDotIndicatorAlign(
+                            state,
+                            updateImage?.images??[],
+                          ),
                         ],
                       ),
                     ),
@@ -233,32 +273,51 @@ class _AddPropertySectionState extends State<AddPropertySection> {
                     ElevatedButton(
                       style: ThemeHelper.lightTheme.elevatedButtonTheme.style,
                       onPressed: () {
-                        AddProductModal data = AddProductModal(
-                          thumbnail: state.image[0],
-                          title: txtTitle.text.trim().toLowerCase(),
-                          description: txtDescription.text,
-                          address: txtAddress.text,
-                          price: int.parse(txtPrice.text),
-                          discountPercentage: double.parse(
-                            txtDiscountPercentage.text,
-                          ),
-                          rating: int.parse(txtRating.text),
-                          plot: int.parse(txtPlot.text),
-                          type: txtType.text.trim().toLowerCase(),
-                          bedroom: int.parse(txtBedroom.text),
-                          hall: int.parse(txtHall.text),
-                          kitchen: int.parse(txtKitchen.text),
-                          washroom: int.parse(txtWashroom.text),
-                          images: state.image,
-                        );
+                        print("Current mode: ${widget.addProductModal == null ? "Add" : "Update"}");
+                        print("Images: ${state.image}");
+
                         if (formKey.currentState!.validate()) {
-                          context.read<AddPropertyBloc>().add(
-                            ClickSubmitButtonAddProduct(addProductModal: data),
+                          String thumbnail = (state.image.isNotEmpty && state.image[0].isNotEmpty)
+                              ? state.image[0]
+                              : (image.isNotEmpty ? image[0] : '');
+                          print("Thumbnail: $thumbnail");
+                          AddProductModal data = AddProductModal(
+                            thumbnail: thumbnail,
+                            title: txtTitle.text.trim().toLowerCase(),
+                            description: txtDescription.text,
+                            address: txtAddress.text,
+                            price: txtPrice.text,
+                            discountPercentage: double.parse(txtDiscountPercentage.text),
+                            rating: txtRating.text,
+                            plot: int.parse(txtPlot.text),
+                            type: txtType.text.trim().toLowerCase(),
+                            bedroom: int.parse(txtBedroom.text),
+                            hall: int.parse(txtHall.text),
+                            kitchen: int.parse(txtKitchen.text),
+                            washroom: int.parse(txtWashroom.text),
+                            images: state.image,
                           );
+
+                          if (widget.addProductModal == null) {
+                            context.read<AddPropertyBloc>().add(
+                              ClickSubmitButtonAddProduct(addProductModal: data),
+                            );
+                          } else {
+                            context.read<AddPropertyBloc>().add(
+                              ClickSubmitButtonUpdateProduct(
+                                addProductModal: data,
+                                productId: widget.addProductModal!.id,
+                              ),
+                            );
+                          }
+                          context.read<AddPropertyBloc>().add(ClearAllPickImage());
+
+                          NavigaterService.backPage(AppRoutes.homepage);
                         }
                       },
+
                       child: Text(
-                        'Add',
+                        widget.addProductModal == null ? 'Add' : 'Update',
                         style: GoogleFonts.lato(
                           textStyle: TextStyle(
                             color: ThemeHelper.backgroundColors,

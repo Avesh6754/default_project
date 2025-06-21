@@ -2,9 +2,9 @@ class AddProductModal {
   final String title;
   final String description;
   final String address;
-  final int price;
+  final dynamic price;
   final double discountPercentage;
-  final int rating;
+  final dynamic rating;
   final int plot;
   final String thumbnail;
   final String type;

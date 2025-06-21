@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   bloc: any
   image_picker: any
+  path_provider: any
 
   flutter_bloc: any
   pretty_dio_logger: ^1.4.0

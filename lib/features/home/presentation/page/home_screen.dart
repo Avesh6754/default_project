@@ -1,5 +1,6 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:default_project/features/home/bloc/home_bloc.dart';
+import 'package:default_project/features/home/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:default_project/core/theme/theme_helper.dart';
 import 'package:default_project/core/utils/custome_size_box.dart';
 import 'package:default_project/core/utils/global.dart';
+import '../../../../core/utils/status.dart' hide Status;
 import '../widgets/add_property.dart';
 import '../widgets/home_filter.dart';
 import '../widgets/list_of _product.dart';
@@ -23,11 +25,15 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(InitialiseEvent('house'));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    context.read<HomeBloc>().add(InitialiseEvent());
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
         systemNavigationBarDividerColor: Colors.transparent,
@@ -50,24 +56,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 buildTabBar(setState),
 
                 buildHeightSizedBox(15),
-                BlocBuilder<HomeBloc, HomeState>(
+                BlocConsumer<HomeBloc, HomeState>(
+                  buildWhen: (previous, current) =>
+                      previous.currentStatus != current.currentStatus ||
+                      previous.currentStatus != current.currentStatus,
+                  listener: (context, state) {},
                   builder: (context, state) {
-                   if(state.currentStatus==Status.loading)
-                     {
-                       return Center(child: CircularProgressIndicator(),);
-                     }
-                   else if(state.currentStatus==Status.success)
-                     {
-                       return Expanded(
-                         child: ListView.builder(
-                           itemCount: state.productList!.data.length,
-                           itemBuilder: (context, index) {
-                             return PropertyCard(property: state.productList!.data[index],);
-                           },
-                         ),
-                       );
-                     }
-                   return Center(child: Text('Data Not Found'),);
+                    if (state.currentStatus == Status.loading) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: ThemeHelper.primaryColors,
+                        ),
+                      );
+                    } else if (state.currentStatus == Status.success) {
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: state.productList!.data.length,
+                          itemBuilder: (context, index) {
+                            ProductModel product = state.productList!.data[index];
+                            return PropertyCard(property: product);
+                          },
+                        ),
+                      );
+                    }
+                    return Center(child: Text('Data Not Found'));
                   },
                 ),
               ],
@@ -78,12 +90,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// labelColor: Theme.of
-// (
-// context).customColors.primaryColor,unselectedLabelColor: Colors.black54,indicatorSize: TabBarIndicatorSize.tab,dividerColor: Colors.transparent,labelPadding: EdgeInsets.all(0.r),indicator: ShapeDecoration( color:Theme.of(context).customColors.secondaryColor, shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.r), ), shadows: [ BoxShadow( color: Theme.of(context).customColors.borderColor, offset: Offset(-1, 1), blurRadius: 5.
-// r
-// )
-// ]
-// )
-// ,

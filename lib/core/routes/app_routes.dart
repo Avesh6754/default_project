@@ -1,5 +1,7 @@
+import 'package:default_project/features/addproperty/model/add_property_model.dart';
 import 'package:default_project/features/addproperty/presentation/page/add_property_section.dart';
 import 'package:default_project/features/detail/presentation/page/deatil_screen.dart';
+import 'package:default_project/features/home/model/product_model.dart';
 import 'package:default_project/features/home/presentation/page/home_screen.dart';
 import 'package:default_project/features/login/presentation/page/login_screen.dart';
 import 'package:default_project/features/registration/presentation/resgistration.dart';
@@ -23,8 +25,12 @@ class AppRoutes {
     detailPage:(BuildContext context) {
       final args = ModalRoute.of(context)!.settings.arguments;
       final id=(args is String)?args:" ";
-      return DetailScreen(id: id);
+      return DeatilScreen(id: id);
     },
-    addPropertyPage: AddPropertySection.builder,
+    addPropertyPage: (BuildContext context) {
+      final args = ModalRoute.of(context)!.settings.arguments;
+      final ProductModel? id=(args is ProductModel)?args:null;
+      return AddPropertySection(addProductModal: id);
+    },
   };
 }

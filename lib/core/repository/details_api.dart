@@ -7,14 +7,14 @@ class DetailsApi {
 
   DetailsApi(this.apiClient);
 
-  Future<DetailsSelectedModel?> getSelectedIndex(String productId) async {
+  Future<DetailsSelectedModel> getSelectedIndex(String productId) async {
     var response = await apiClient.request(
       RequestType.GET,
-      ApiEndPoint.details + productId,
+      '${ApiEndPoint.details}/$productId',
     );
     if (response['status'] == true) {
-      return DetailsSelectedModel.fromJson(response);
+      return DetailsSelectedModel.fromJson(response['data']);
     }
-    return null;
+   throw Exception('Failed to load details for product ID: $productId');
   }
 }

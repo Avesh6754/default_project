@@ -9,13 +9,21 @@ abstract class HomeEvent extends Equatable{
 }
 
 class InitialiseEvent extends HomeEvent{
+  final String type;
+
+  const InitialiseEvent(this.type);
+  @override
+  List<Object?> get props => [type];
 
 }
 
-class SelectedProductId extends HomeEvent{
+class ClickDeletedButtonProductId extends HomeEvent{
  final  String id;
+ final String type;
 
-  const SelectedProductId(this.id);
+  const ClickDeletedButtonProductId(this.id,this.type);
   @override
   List<Object?> get props => [id];
 }
+
+

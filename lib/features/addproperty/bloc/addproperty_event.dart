@@ -14,7 +14,13 @@ class ClickSubmitButtonAddProduct extends AddPropertyEvent{
   @override
   List<Object?> get props => [addProductModal];
 }
-class MultiImagePickerFromGallery extends AddPropertyEvent{
-
+class ClickSubmitButtonUpdateProduct extends AddPropertyEvent{
+  final AddProductModal addProductModal;
+  final String productId;
+  const ClickSubmitButtonUpdateProduct({required this.addProductModal,required this.productId});
+  @override
+  List<Object?> get props => [addProductModal,productId];
 }
+
+class MultiImagePickerFromGallery extends AddPropertyEvent{}
 class ClearAllPickImage extends AddPropertyEvent{}

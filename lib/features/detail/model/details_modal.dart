@@ -3,9 +3,9 @@ class DetailsSelectedModel {
   final String title;
   final String description;
   final String address;
-  final double price;
-  final double discountPercentage;
-  final double rating;
+  final int price;
+  final int discountPercentage;
+  final dynamic rating;
   final int plot;
   final String type;
   final int bedroom;
@@ -37,22 +37,22 @@ class DetailsSelectedModel {
 
   factory DetailsSelectedModel.fromJson(Map<String, dynamic> json) {
     return DetailsSelectedModel(
-      id: json['_id'],
-      title: json['title'],
-      description: json['description'],
-      address: json['address'],
-      price: (json['price'] as num).toDouble(),
-      discountPercentage: (json['discountPercentage'] as num).toDouble(),
-      rating: (json['rating'] as num).toDouble(),
-      plot: json['plot'],
-      type: json['type'],
-      bedroom: json['bedroom'],
-      hall: json['hall'],
-      kitchen: json['kitchen'],
-      washroom: json['washroom'],
-      thumbnail: json['thumbnail'],
-      images: List<String>.from(json['images']),
-      userId: json['userId'],
+      id: json['_id']??" ",
+      title: json['title']??" ",
+      description: json['description']??" ",
+      address: json['address']??" ",
+      price: json['price']?? 0,
+      discountPercentage:json['discountPercentage'] ??0,
+      rating: json['rating']??0,
+      plot: json['plot']??0,
+      type: json['type']??'',
+      bedroom: json['bedroom']??0,
+      hall: json['hall']??0,
+      kitchen: json['kitchen']??0,
+      washroom: json['washroom']??0,
+      thumbnail: json['thumbnail']??"",
+      images: List<String>.from(json['images']??[]),
+      userId: json['userId']??'',
     );
   }
   Map<String, dynamic> toJson() {

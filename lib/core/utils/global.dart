@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-const List<String> filterList=['House','Villa','Land','Shop'];
+const List<String> filterList = ['House', 'Land', 'Office', 'Apartment'];
 
 int currentFilterIndex = 0;
 int currentDetailsIndex = 0;
 
-
-const List<Map<String,dynamic>> propertyList=[
+const List<Map<String, dynamic>> propertyList = [
   {
     "image": "assets/png/house.png",
     "building_name": "Green Valley",
@@ -16,18 +15,19 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "address": "45 Elm Street,",
     "rating": 4.5,
     "discount": "10%",
     "plots": 2,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Apartment",
     "bedroom": 3,
     "hall": 1,
     "kitchen": 1,
-    "washroom": 2
+    "washroom": 2,
   },
   {
     "image": "assets/jpg/buiding.jpg",
@@ -40,16 +40,17 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "discount": "5%",
     "plots": 4,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Villa",
     "bedroom": 4,
     "hall": 2,
     "kitchen": 1,
-    "washroom": 3
+    "washroom": 3,
   },
   {
     "image": "assets/jpg/building1.jpg",
@@ -63,15 +64,16 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "plots": 1,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Row House",
     "bedroom": 2,
     "hall": 1,
     "kitchen": 1,
-    "washroom": 1
+    "washroom": 1,
   },
   {
     "image": "assets/jpg/buiding2.jpg",
@@ -85,15 +87,16 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "plots": 3,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Apartment",
     "bedroom": 3,
     "hall": 1,
     "kitchen": 1,
-    "washroom": 2
+    "washroom": 2,
   },
   {
     "image": "assets/jpg/buiding3.jpg",
@@ -108,14 +111,15 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Duplex",
     "bedroom": 3,
     "hall": 2,
     "kitchen": 1,
-    "washroom": 3
+    "washroom": 3,
   },
   {
     "image": "assets/jpg/buiding4.jpg",
@@ -126,18 +130,19 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "address": "Salt Lake City, ",
     "rating": 4.3,
     "discount": "6%",
     "plots": 2,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Flat",
     "bedroom": 2,
     "hall": 1,
     "kitchen": 1,
-    "washroom": 2
+    "washroom": 2,
   },
   {
     "image": "assets/jpg/buiding.jpg",
@@ -151,15 +156,16 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "plots": 5,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Villa",
     "bedroom": 5,
     "hall": 2,
     "kitchen": 2,
-    "washroom": 4
+    "washroom": 4,
   },
   {
     "image": "assets/jpg/building1.jpg",
@@ -173,15 +179,16 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "plots": 2,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Independent House",
     "bedroom": 3,
     "hall": 1,
     "kitchen": 1,
-    "washroom": 2
+    "washroom": 2,
   },
   {
     "image": "assets/jpg/buiding2.jpg",
@@ -194,16 +201,17 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "discount": "3%",
     "plots": 1,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Penthouse",
     "bedroom": 4,
     "hall": 2,
     "kitchen": 1,
-    "washroom": 4
+    "washroom": 4,
   },
   {
     "image": "assets/jpg/buiding2.jpg",
@@ -217,14 +225,15 @@ const List<Map<String,dynamic>> propertyList=[
       "assets/jpg/building1.jpg",
       "assets/jpg/buiding2.jpg",
       "assets/jpg/buiding3.jpg",
-      "assets/jpg/buiding4.jpg"
+      "assets/jpg/buiding4.jpg",
     ],
     "plots": 6,
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description":
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "types_of_house": "Farmhouse",
     "bedroom": 3,
     "hall": 1,
     "kitchen": 1,
-    "washroom": 2
-  }
+    "washroom": 2,
+  },
 ];
